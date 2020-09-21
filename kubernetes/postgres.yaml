@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dbdemo
+  namespace: default
+spec:
+  containers: 
+  - name: pg
+    image: postgres:9.6
+    volumeMounts:
+    - name: dbinit-vol
+      mountPath: /docker-entrypoint-initdb.d
+    env:
+      - name: POSTGRES_USER 
+        valueFrom:
+          configMapKeyRef:
+            name: dbconfig
+            key: user
+      - name: POSTGRES_DB 
+        valueFrom:
+          configMapKeyRef:
+            name: dbconfig
+            key: db
+      - name: POSTGRES_PASSWORD 
+        valueFrom:
+          secretKeyRef:
+            name: postgres-pwd
+            key: password
+  volumes:
+    - name: dbinit-vol 
+      configMap:
+        name: dbinit

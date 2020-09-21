@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  db:
+    image: postgres:9.6
+    environment:
+        POSTGRES_PASSWORD: password
+    env_file:
+      - myvars.env
+    configs:
+      - source: initscript
+        target: /docker-entrypoint-initdb.d/init.sh
+configs:
+  initscript:
+    file: ./db-init.sh

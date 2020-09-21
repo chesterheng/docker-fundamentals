@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  destination:
+    image: training/whoami:latest
+    deploy:
+      replicas: 3
+    ports:
+      - 8080:8000
